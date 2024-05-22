@@ -1,0 +1,1 @@
+List<String> NEWS_TABBAR_ICONS = [  "",  "assets/icons/Pie Chart 2.png",  "assets/icons/Emoji Funny Square.png",  "assets/icons/Pill.png",  "assets/icons/Star Rings.png",  "assets/icons/Football.png",  "assets/icons/Programming.png",];List<String> NEWS_TABBAR_TEXTS = [  "🔥 All",  "business",  "entertainment",  "health",  "science",  "sports",  "technology",];
