@@ -26,7 +26,7 @@ This app is not available on app stores. You can find the source code and instru
 3. Run `mason init` to install mason_cli and 
    our Pine Bricks. 
 4. Let’s update a file in the root of the project 
-   named mason.yaml with the `bricks` below
+   named mason.yaml with the `bricks` below, then run `mason get`
 5. Build and run the app using your preferred 
     Flutter development environment.
 
