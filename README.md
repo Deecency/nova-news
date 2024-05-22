@@ -65,7 +65,7 @@ This app is not available on app stores. You can find the source code and instru
 
 ## Contributing
 
-Contributions to Nova News App are welcome! Please feel free to submit bug reports, feature requests, or pull requests on [GitHub](https://github.com/your-username/nova-news-app).
+Contributions to Nova News App are welcome! Please feel free to submit bug reports, feature requests, or pull requests on [GitHub](https://github.com/Deecency/nova-news-app).
 
 ## License
 
