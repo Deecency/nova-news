@@ -33,10 +33,9 @@ class NewsHomePage extends StatefulWidget implements AutoRouteWrapper {
             ),
           ),
           BlocProvider<TrendingNewsBloc>(
-            create: (context) => TrendingNewsBloc(
-              newsRepository: context.read(),
-            )..fetch(),
-          ),
+              create: (context) => TrendingNewsBloc(
+                    newsRepository: context.read(),
+                  )),
           BlocProvider<ReadingListCubit>(
             create: (context) => ReadingListCubit(),
           ),
@@ -60,6 +59,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<NewsBloc>().fetch(context);
+      context.read<TrendingNewsBloc>().fetch(context);
     });
     setState(() {
       keys = List.generate(tabs.length, (index) => GlobalKey());
@@ -164,7 +164,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
 
   Future<void> _onRefresh() async {
     context.read<NewsBloc>().fetch(context);
-    context.read<TrendingNewsBloc>().fetch();
+    context.read<TrendingNewsBloc>().fetch(context);
   }
 
   void _handleTabTap(int index) {

@@ -43,17 +43,6 @@ class MockNewsRepository extends _i1.Mock implements _i3.NewsRepository {
   }
 
   @override
-  _i4.Future<_i2.ApiResult<List<_i5.News>>> get trendingNews =>
-      (super.noSuchMethod(
-        Invocation.getter(#trendingNews),
-        returnValue: _i4.Future<_i2.ApiResult<List<_i5.News>>>.value(
-            _FakeApiResult_0<List<_i5.News>>(
-          this,
-          Invocation.getter(#trendingNews),
-        )),
-      ) as _i4.Future<_i2.ApiResult<List<_i5.News>>>);
-
-  @override
   _i4.Future<_i2.ApiResult<List<_i5.News>>> news(
           {required _i6.BuildContext? context}) =>
       (super.noSuchMethod(
@@ -67,6 +56,26 @@ class MockNewsRepository extends _i1.Mock implements _i3.NewsRepository {
           this,
           Invocation.method(
             #news,
+            [],
+            {#context: context},
+          ),
+        )),
+      ) as _i4.Future<_i2.ApiResult<List<_i5.News>>>);
+
+  @override
+  _i4.Future<_i2.ApiResult<List<_i5.News>>> trendingNews(
+          {required _i6.BuildContext? context}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #trendingNews,
+          [],
+          {#context: context},
+        ),
+        returnValue: _i4.Future<_i2.ApiResult<List<_i5.News>>>.value(
+            _FakeApiResult_0<List<_i5.News>>(
+          this,
+          Invocation.method(
+            #trendingNews,
             [],
             {#context: context},
           ),

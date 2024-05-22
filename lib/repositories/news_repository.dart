@@ -13,7 +13,7 @@ import 'package:flutter/foundation.dart';
 /// Abstract class of NewsRepository
 abstract class NewsRepository {
   Future<ApiResult<List<News>>> news({required BuildContext context});
-  Future<ApiResult<List<News>>> get trendingNews;
+  Future<ApiResult<List<News>>> trendingNews({required BuildContext context});
 }
 
 /// Implementation of the base interface NewsRepository
@@ -50,18 +50,16 @@ class NewsRepositoryImpl implements NewsRepository {
   }
 
   @override
-  Future<ApiResult<List<News>>> get trendingNews async {
+  Future<ApiResult<List<News>>> trendingNews({required BuildContext context}) async {
     try {
-      logger.info('Fetching trending news');
       final jtos = await newsService.news(
         sortBy: "popularity",
         domains: "cnn.com, za.ign.com, youTube.com",
         pageSize: 3,
       );
-      logger.info('trending news fetched ${jtos.articles.length}');
       return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
     } catch (e, stackTrace) {
-      logger.error('Failed to fetch news', e, stackTrace);
+      K.handleError(context, e: e);
       if (e is DioException) {
         Talker().log("exception is $e and $stackTrace");
         return ApiResult()

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:news_app/models/news/news.dart';
@@ -22,7 +23,7 @@ class TrendingNewsBloc extends Bloc<TrendingNewsEvent, TrendingNewsState> {
   }
 
   /// Method used to add the [FetchTrendingNewsEvent] event
-  void fetch() => add(const TrendingNewsEvent.fetch());
+  void fetch(BuildContext context) => add(TrendingNewsEvent.fetch(context));
 
   Future<FutureOr<void>> _onFetch(
     FetchTrendingNewsEvent event,
@@ -31,7 +32,9 @@ class TrendingNewsBloc extends Bloc<TrendingNewsEvent, TrendingNewsState> {
     try {
       emit(const TrendingNewsState.fetching());
 
-      final news = await newsRepository.trendingNews;
+      final news = await newsRepository.trendingNews(
+        context: event.context,
+      );
 
       if (news.data != null) {
         emit(news.data.isNotEmpty

@@ -16,19 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TrendingNewsEvent {
+  BuildContext get context => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetch,
+    required TResult Function(BuildContext context) fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetch,
+    TResult? Function(BuildContext context)? fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetch,
+    TResult Function(BuildContext context)? fetch,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +49,10 @@ mixin _$TrendingNewsEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $TrendingNewsEventCopyWith<TrendingNewsEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -55,6 +60,8 @@ abstract class $TrendingNewsEventCopyWith<$Res> {
   factory $TrendingNewsEventCopyWith(
           TrendingNewsEvent value, $Res Function(TrendingNewsEvent) then) =
       _$TrendingNewsEventCopyWithImpl<$Res, TrendingNewsEvent>;
+  @useResult
+  $Res call({BuildContext context});
 }
 
 /// @nodoc
@@ -66,14 +73,31 @@ class _$TrendingNewsEventCopyWithImpl<$Res, $Val extends TrendingNewsEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? context = null,
+  }) {
+    return _then(_value.copyWith(
+      context: null == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as BuildContext,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$FetchTrendingNewsEventImplCopyWith<$Res> {
+abstract class _$$FetchTrendingNewsEventImplCopyWith<$Res>
+    implements $TrendingNewsEventCopyWith<$Res> {
   factory _$$FetchTrendingNewsEventImplCopyWith(
           _$FetchTrendingNewsEventImpl value,
           $Res Function(_$FetchTrendingNewsEventImpl) then) =
       __$$FetchTrendingNewsEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({BuildContext context});
 }
 
 /// @nodoc
@@ -84,52 +108,76 @@ class __$$FetchTrendingNewsEventImplCopyWithImpl<$Res>
       _$FetchTrendingNewsEventImpl _value,
       $Res Function(_$FetchTrendingNewsEventImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? context = null,
+  }) {
+    return _then(_$FetchTrendingNewsEventImpl(
+      null == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as BuildContext,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$FetchTrendingNewsEventImpl implements FetchTrendingNewsEvent {
-  const _$FetchTrendingNewsEventImpl();
+  const _$FetchTrendingNewsEventImpl(this.context);
+
+  @override
+  final BuildContext context;
 
   @override
   String toString() {
-    return 'TrendingNewsEvent.fetch()';
+    return 'TrendingNewsEvent.fetch(context: $context)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FetchTrendingNewsEventImpl);
+            other is _$FetchTrendingNewsEventImpl &&
+            (identical(other.context, context) || other.context == context));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, context);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchTrendingNewsEventImplCopyWith<_$FetchTrendingNewsEventImpl>
+      get copyWith => __$$FetchTrendingNewsEventImplCopyWithImpl<
+          _$FetchTrendingNewsEventImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetch,
+    required TResult Function(BuildContext context) fetch,
   }) {
-    return fetch();
+    return fetch(context);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetch,
+    TResult? Function(BuildContext context)? fetch,
   }) {
-    return fetch?.call();
+    return fetch?.call(context);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetch,
+    TResult Function(BuildContext context)? fetch,
     required TResult orElse(),
   }) {
     if (fetch != null) {
-      return fetch();
+      return fetch(context);
     }
     return orElse();
   }
@@ -164,7 +212,15 @@ class _$FetchTrendingNewsEventImpl implements FetchTrendingNewsEvent {
 }
 
 abstract class FetchTrendingNewsEvent implements TrendingNewsEvent {
-  const factory FetchTrendingNewsEvent() = _$FetchTrendingNewsEventImpl;
+  const factory FetchTrendingNewsEvent(final BuildContext context) =
+      _$FetchTrendingNewsEventImpl;
+
+  @override
+  BuildContext get context;
+  @override
+  @JsonKey(ignore: true)
+  _$$FetchTrendingNewsEventImplCopyWith<_$FetchTrendingNewsEventImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
