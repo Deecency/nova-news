@@ -129,17 +129,18 @@ class _NewsHomePageState extends State<NewsHomePage> {
               ),
               16.sliverVSpacer,
               SliverToBoxAdapter(
-                child: Text(
-                  "Recent Stories",
-                  style: TextStyle(
-                    fontSize: 18.text,
-                    fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.relWidth),
+                  child: Text(
+                    "Recent Stories",
+                    style: TextStyle(
+                      fontSize: 18.text,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-              8.sliverVSpacer,
               const NewsSearchBar(),
-              16.sliverVSpacer,
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Column(
