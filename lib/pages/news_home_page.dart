@@ -30,7 +30,7 @@ class NewsHomePage extends StatefulWidget implements AutoRouteWrapper {
             create: (context) => NewsBloc(
               newsRepository: context.read(),
               localRepository: context.read(),
-            )..fetch(),
+            ),
           ),
           BlocProvider<TrendingNewsBloc>(
             create: (context) => TrendingNewsBloc(
@@ -52,12 +52,15 @@ class _NewsHomePageState extends State<NewsHomePage> {
   _NewsHomePageState? newsHomePageState;
   int categoryIndex = 0;
   List<GlobalKey> keys = [];
-  List<String> tabs = NEWS_TABBAR_TEXTS;
-  List<String> icons = NEWS_TABBAR_ICONS;
+  List<String> tabs = K.NEWS_TABBAR_TEXTS;
+  List<String> icons = K.NEWS_TABBAR_ICONS;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<NewsBloc>().fetch(context);
+    });
     setState(() {
       keys = List.generate(tabs.length, (index) => GlobalKey());
     });
@@ -160,7 +163,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
   }
 
   Future<void> _onRefresh() async {
-    context.read<NewsBloc>().fetch();
+    context.read<NewsBloc>().fetch(context);
     context.read<TrendingNewsBloc>().fetch();
   }
 
@@ -246,7 +249,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
             ),
         fetched: (value) => _buildNewsView(value),
         none: (value) => InkWell(
-              onTap: () => context.read<NewsBloc>().fetch(),
+              onTap: () => context.read<NewsBloc>().fetch(context),
               child: const Text(
                 "empty",
               ),

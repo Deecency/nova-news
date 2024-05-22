@@ -3,12 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
+import 'package:flutter/cupertino.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:news_app/models/news/news.dart' as _i4;
-import 'package:news_app/repositories/local_repository.dart' as _i5;
-import 'package:news_app/repositories/news_repository.dart' as _i2;
+import 'package:news_app/models/news/news.dart' as _i5;
+import 'package:news_app/repositories/local_repository.dart' as _i7;
+import 'package:news_app/repositories/news_repository.dart' as _i3;
+import 'package:news_app/services/network/api_result.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -23,31 +25,60 @@ import 'package:news_app/repositories/news_repository.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeApiResult_0<T> extends _i1.SmartFake implements _i2.ApiResult<T> {
+  _FakeApiResult_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [NewsRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNewsRepository extends _i1.Mock implements _i2.NewsRepository {
+class MockNewsRepository extends _i1.Mock implements _i3.NewsRepository {
   MockNewsRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<List<_i4.News>> get news => (super.noSuchMethod(
-        Invocation.getter(#news),
-        returnValue: _i3.Future<List<_i4.News>>.value(<_i4.News>[]),
-      ) as _i3.Future<List<_i4.News>>);
+  _i4.Future<_i2.ApiResult<List<_i5.News>>> get trendingNews =>
+      (super.noSuchMethod(
+        Invocation.getter(#trendingNews),
+        returnValue: _i4.Future<_i2.ApiResult<List<_i5.News>>>.value(
+            _FakeApiResult_0<List<_i5.News>>(
+          this,
+          Invocation.getter(#trendingNews),
+        )),
+      ) as _i4.Future<_i2.ApiResult<List<_i5.News>>>);
 
   @override
-  _i3.Future<List<_i4.News>> get trendingNews => (super.noSuchMethod(
-        Invocation.getter(#trendingNews),
-        returnValue: _i3.Future<List<_i4.News>>.value(<_i4.News>[]),
-      ) as _i3.Future<List<_i4.News>>);
+  _i4.Future<_i2.ApiResult<List<_i5.News>>> news(
+          {required _i6.BuildContext? context}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #news,
+          [],
+          {#context: context},
+        ),
+        returnValue: _i4.Future<_i2.ApiResult<List<_i5.News>>>.value(
+            _FakeApiResult_0<List<_i5.News>>(
+          this,
+          Invocation.method(
+            #news,
+            [],
+            {#context: context},
+          ),
+        )),
+      ) as _i4.Future<_i2.ApiResult<List<_i5.News>>>);
 }
 
 /// A class which mocks [LocalRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocalRepository extends _i1.Mock implements _i5.LocalRepository {
+class MockLocalRepository extends _i1.Mock implements _i7.LocalRepository {
   MockLocalRepository() {
     _i1.throwOnMissingStub(this);
   }
@@ -70,14 +101,14 @@ class MockLocalRepository extends _i1.Mock implements _i5.LocalRepository {
       );
 
   @override
-  _i3.Future<Object?> getData({required String? key}) => (super.noSuchMethod(
+  _i4.Future<Object?> getData({required String? key}) => (super.noSuchMethod(
         Invocation.method(
           #getData,
           [],
           {#key: key},
         ),
-        returnValue: _i3.Future<Object?>.value(),
-      ) as _i3.Future<Object?>);
+        returnValue: _i4.Future<Object?>.value(),
+      ) as _i4.Future<Object?>);
 
   @override
   void removeData({required String? key}) => super.noSuchMethod(
@@ -116,12 +147,12 @@ class MockLocalRepository extends _i1.Mock implements _i5.LocalRepository {
       );
 
   @override
-  _i3.Future<bool?> getBoolData({required String? key}) => (super.noSuchMethod(
+  _i4.Future<bool?> getBoolData({required String? key}) => (super.noSuchMethod(
         Invocation.method(
           #getBoolData,
           [],
           {#key: key},
         ),
-        returnValue: _i3.Future<bool?>.value(),
-      ) as _i3.Future<bool?>);
+        returnValue: _i4.Future<bool?>.value(),
+      ) as _i4.Future<bool?>);
 }

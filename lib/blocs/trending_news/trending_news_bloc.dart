@@ -4,6 +4,7 @@ import 'package:news_app/models/news/news.dart';
 import 'dart:async';
 
 import 'package:news_app/repositories/news_repository.dart';
+import 'package:news_app/services/network/error_handler.dart';
 
 part 'trending_news_event.dart';
 
@@ -32,7 +33,14 @@ class TrendingNewsBloc extends Bloc<TrendingNewsEvent, TrendingNewsState> {
 
       final news = await newsRepository.trendingNews;
 
-      emit(news.isNotEmpty ? TrendingNewsState.fetched(news) : const TrendingNewsState.none());
+      if (news.data != null) {
+        emit(news.data.isNotEmpty
+            ? TrendingNewsState.fetched(news.data)
+            : const TrendingNewsState.none());
+      } else {
+        ErrorHandler e = news.getException;
+        emit(TrendingNewsState.errorFetching(e.getErrorMessage()));
+      }
     } catch (e) {
       emit(TrendingNewsState.errorFetching(e));
     }

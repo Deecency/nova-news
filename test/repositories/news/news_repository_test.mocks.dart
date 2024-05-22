@@ -3,14 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i8;
 
+import 'package:flutter/foundation.dart' as _i6;
+import 'package:flutter/src/widgets/framework.dart' as _i5;
+import 'package:flutter/src/widgets/notification_listener.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:news_app/models/news/news.dart' as _i3;
-import 'package:news_app/repositories/mappers/news_mapper.dart' as _i7;
+import 'package:news_app/repositories/mappers/news_mapper.dart' as _i9;
 import 'package:news_app/services/network/jto/news/news_jto.dart' as _i4;
 import 'package:news_app/services/network/news/news_service.dart' as _i2;
-import 'package:talker/talker.dart' as _i5;
+import 'package:talker/talker.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -55,9 +58,56 @@ class _FakeNewsJTO_2 extends _i1.SmartFake implements _i4.NewsJTO {
         );
 }
 
-class _FakeTalkerSettings_3 extends _i1.SmartFake
-    implements _i5.TalkerSettings {
-  _FakeTalkerSettings_3(
+class _FakeWidget_3 extends _i1.SmartFake implements _i5.Widget {
+  _FakeWidget_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+
+  @override
+  String toString({_i6.DiagnosticLevel? minLevel = _i6.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
+class _FakeInheritedWidget_4 extends _i1.SmartFake
+    implements _i5.InheritedWidget {
+  _FakeInheritedWidget_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+
+  @override
+  String toString({_i6.DiagnosticLevel? minLevel = _i6.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
+class _FakeDiagnosticsNode_5 extends _i1.SmartFake
+    implements _i6.DiagnosticsNode {
+  _FakeDiagnosticsNode_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+
+  @override
+  String toString({
+    _i6.TextTreeConfiguration? parentConfiguration,
+    _i6.DiagnosticLevel? minLevel = _i6.DiagnosticLevel.info,
+  }) =>
+      super.toString();
+}
+
+class _FakeTalkerSettings_6 extends _i1.SmartFake
+    implements _i7.TalkerSettings {
+  _FakeTalkerSettings_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -75,7 +125,7 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
   }
 
   @override
-  _i6.Future<_i2.NewsResponse> news({
+  _i8.Future<_i2.NewsResponse> news({
     String? keyword,
     String? searchIn,
     String? domains = r'bbc.co.uk, techcrunch.com, engadget.com',
@@ -106,7 +156,7 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
             #apiKey: apiKey,
           },
         ),
-        returnValue: _i6.Future<_i2.NewsResponse>.value(_FakeNewsResponse_0(
+        returnValue: _i8.Future<_i2.NewsResponse>.value(_FakeNewsResponse_0(
           this,
           Invocation.method(
             #news,
@@ -126,10 +176,10 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
             },
           ),
         )),
-      ) as _i6.Future<_i2.NewsResponse>);
+      ) as _i8.Future<_i2.NewsResponse>);
 
   @override
-  _i6.Future<_i2.NewsResponse> newsByCategory({
+  _i8.Future<_i2.NewsResponse> newsByCategory({
     String? keyword,
     String? searchIn,
     String? domains = r'bbc.co.uk, techcrunch.com, engadget.com',
@@ -160,7 +210,7 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
             #apiKey: apiKey,
           },
         ),
-        returnValue: _i6.Future<_i2.NewsResponse>.value(_FakeNewsResponse_0(
+        returnValue: _i8.Future<_i2.NewsResponse>.value(_FakeNewsResponse_0(
           this,
           Invocation.method(
             #newsByCategory,
@@ -180,13 +230,13 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
             },
           ),
         )),
-      ) as _i6.Future<_i2.NewsResponse>);
+      ) as _i8.Future<_i2.NewsResponse>);
 }
 
 /// A class which mocks [NewsMapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNewsMapper extends _i1.Mock implements _i7.NewsMapper {
+class MockNewsMapper extends _i1.Mock implements _i9.NewsMapper {
   MockNewsMapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -222,25 +272,175 @@ class MockNewsMapper extends _i1.Mock implements _i7.NewsMapper {
       ) as _i4.NewsJTO);
 }
 
+/// A class which mocks [BuildContext].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockBuildContext extends _i1.Mock implements _i5.BuildContext {
+  MockBuildContext() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Widget get widget => (super.noSuchMethod(
+        Invocation.getter(#widget),
+        returnValue: _FakeWidget_3(
+          this,
+          Invocation.getter(#widget),
+        ),
+      ) as _i5.Widget);
+
+  @override
+  bool get mounted => (super.noSuchMethod(
+        Invocation.getter(#mounted),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool get debugDoingBuild => (super.noSuchMethod(
+        Invocation.getter(#debugDoingBuild),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i5.InheritedWidget dependOnInheritedElement(
+    _i5.InheritedElement? ancestor, {
+    Object? aspect,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #dependOnInheritedElement,
+          [ancestor],
+          {#aspect: aspect},
+        ),
+        returnValue: _FakeInheritedWidget_4(
+          this,
+          Invocation.method(
+            #dependOnInheritedElement,
+            [ancestor],
+            {#aspect: aspect},
+          ),
+        ),
+      ) as _i5.InheritedWidget);
+
+  @override
+  void visitAncestorElements(_i5.ConditionalElementVisitor? visitor) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #visitAncestorElements,
+          [visitor],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void visitChildElements(_i5.ElementVisitor? visitor) => super.noSuchMethod(
+        Invocation.method(
+          #visitChildElements,
+          [visitor],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispatchNotification(_i10.Notification? notification) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #dispatchNotification,
+          [notification],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i6.DiagnosticsNode describeElement(
+    String? name, {
+    _i6.DiagnosticsTreeStyle? style = _i6.DiagnosticsTreeStyle.errorProperty,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #describeElement,
+          [name],
+          {#style: style},
+        ),
+        returnValue: _FakeDiagnosticsNode_5(
+          this,
+          Invocation.method(
+            #describeElement,
+            [name],
+            {#style: style},
+          ),
+        ),
+      ) as _i6.DiagnosticsNode);
+
+  @override
+  _i6.DiagnosticsNode describeWidget(
+    String? name, {
+    _i6.DiagnosticsTreeStyle? style = _i6.DiagnosticsTreeStyle.errorProperty,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #describeWidget,
+          [name],
+          {#style: style},
+        ),
+        returnValue: _FakeDiagnosticsNode_5(
+          this,
+          Invocation.method(
+            #describeWidget,
+            [name],
+            {#style: style},
+          ),
+        ),
+      ) as _i6.DiagnosticsNode);
+
+  @override
+  List<_i6.DiagnosticsNode> describeMissingAncestor(
+          {required Type? expectedAncestorType}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #describeMissingAncestor,
+          [],
+          {#expectedAncestorType: expectedAncestorType},
+        ),
+        returnValue: <_i6.DiagnosticsNode>[],
+      ) as List<_i6.DiagnosticsNode>);
+
+  @override
+  _i6.DiagnosticsNode describeOwnershipChain(String? name) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #describeOwnershipChain,
+          [name],
+        ),
+        returnValue: _FakeDiagnosticsNode_5(
+          this,
+          Invocation.method(
+            #describeOwnershipChain,
+            [name],
+          ),
+        ),
+      ) as _i6.DiagnosticsNode);
+}
+
 /// A class which mocks [Talker].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTalker extends _i1.Mock implements _i5.Talker {
+class MockTalker extends _i1.Mock implements _i7.Talker {
   MockTalker() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.TalkerSettings get settings => (super.noSuchMethod(
+  _i7.TalkerSettings get settings => (super.noSuchMethod(
         Invocation.getter(#settings),
-        returnValue: _FakeTalkerSettings_3(
+        returnValue: _FakeTalkerSettings_6(
           this,
           Invocation.getter(#settings),
         ),
-      ) as _i5.TalkerSettings);
+      ) as _i7.TalkerSettings);
 
   @override
-  set settings(_i5.TalkerSettings? _settings) => super.noSuchMethod(
+  set settings(_i7.TalkerSettings? _settings) => super.noSuchMethod(
         Invocation.setter(
           #settings,
           _settings,
@@ -249,25 +449,25 @@ class MockTalker extends _i1.Mock implements _i5.Talker {
       );
 
   @override
-  _i6.Stream<_i5.TalkerData> get stream => (super.noSuchMethod(
+  _i8.Stream<_i7.TalkerData> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i6.Stream<_i5.TalkerData>.empty(),
-      ) as _i6.Stream<_i5.TalkerData>);
+        returnValue: _i8.Stream<_i7.TalkerData>.empty(),
+      ) as _i8.Stream<_i7.TalkerData>);
 
   @override
-  List<_i5.TalkerData> get history => (super.noSuchMethod(
+  List<_i7.TalkerData> get history => (super.noSuchMethod(
         Invocation.getter(#history),
-        returnValue: <_i5.TalkerData>[],
-      ) as List<_i5.TalkerData>);
+        returnValue: <_i7.TalkerData>[],
+      ) as List<_i7.TalkerData>);
 
   @override
   void configure({
-    _i5.TalkerLogger? logger,
-    _i5.TalkerSettings? settings,
-    _i5.TalkerObserver? observer,
+    _i7.TalkerLogger? logger,
+    _i7.TalkerSettings? settings,
+    _i7.TalkerObserver? observer,
     filter,
-    _i5.TalkerErrorHandler? errorHandler,
-    _i5.TalkerHistory? history,
+    _i7.TalkerErrorHandler? errorHandler,
+    _i7.TalkerHistory? history,
   }) =>
       throw UnsupportedError(
           r'"configure" cannot be used without a mockito fallback generator.');
@@ -293,10 +493,10 @@ class MockTalker extends _i1.Mock implements _i5.Talker {
   @override
   void log(
     dynamic message, {
-    _i5.LogLevel? logLevel = _i5.LogLevel.debug,
+    _i7.LogLevel? logLevel = _i7.LogLevel.debug,
     Object? exception,
     StackTrace? stackTrace,
-    _i5.AnsiPen? pen,
+    _i7.AnsiPen? pen,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -313,7 +513,7 @@ class MockTalker extends _i1.Mock implements _i5.Talker {
       );
 
   @override
-  void logTyped(_i5.TalkerLog? log) => super.noSuchMethod(
+  void logTyped(_i7.TalkerLog? log) => super.noSuchMethod(
         Invocation.method(
           #logTyped,
           [log],

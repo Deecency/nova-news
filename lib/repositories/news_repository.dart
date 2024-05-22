@@ -1,13 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:news_app/models/news/news.dart';
+import 'package:news_app/services/network/api_result.dart';
+import 'package:news_app/services/network/error_handler.dart';
 import 'package:news_app/services/network/jto/news/news_jto.dart';
 import 'package:news_app/services/network/news/news_service.dart';
+import 'package:news_app/shared/globals.dart';
 import 'package:pine/utils/dto_mapper.dart';
 import 'package:talker/talker.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 /// Abstract class of NewsRepository
 abstract class NewsRepository {
-  Future<List<News>> get news;
-  Future<List<News>> get trendingNews;
+  Future<ApiResult<List<News>>> news({required BuildContext context});
+  Future<ApiResult<List<News>>> get trendingNews;
 }
 
 /// Implementation of the base interface NewsRepository
@@ -23,20 +29,28 @@ class NewsRepositoryImpl implements NewsRepository {
   });
 
   @override
-  Future<List<News>> get news async {
+  Future<ApiResult<List<News>>> news({required BuildContext context}) async {
     try {
-      logger.info('Fetching news');
       final jtos = await newsService.news();
-      logger.info('news fetched');
-      return jtos.articles.map(newsMapper.fromDTO).toList(growable: false);
-    } catch (error, stackTrace) {
-      logger.error('Failed to fetch news', error, stackTrace);
-      rethrow;
+      return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
+    } catch (e, stackTrace) {
+      K.handleError(context, e: e);
+      if (e is DioException) {
+        Talker().log("exception is $e and $stackTrace");
+        return ApiResult()
+          ..setException(
+            ErrorHandler.dioException(error: e),
+          );
+      }
+      return ApiResult()
+        ..setException(
+          ErrorHandler.otherException(),
+        );
     }
   }
 
   @override
-  Future<List<News>> get trendingNews async {
+  Future<ApiResult<List<News>>> get trendingNews async {
     try {
       logger.info('Fetching trending news');
       final jtos = await newsService.news(
@@ -45,10 +59,20 @@ class NewsRepositoryImpl implements NewsRepository {
         pageSize: 3,
       );
       logger.info('trending news fetched ${jtos.articles.length}');
-      return jtos.articles.map(newsMapper.fromDTO).toList();
-    } catch (error, stackTrace) {
-      logger.error('Failed to fetch trending news', error, stackTrace);
-      rethrow;
+      return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
+    } catch (e, stackTrace) {
+      logger.error('Failed to fetch news', e, stackTrace);
+      if (e is DioException) {
+        Talker().log("exception is $e and $stackTrace");
+        return ApiResult()
+          ..setException(
+            ErrorHandler.dioException(error: e),
+          );
+      }
+      return ApiResult()
+        ..setException(
+          ErrorHandler.otherException(),
+        );
     }
   }
 }
