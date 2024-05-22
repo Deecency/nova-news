@@ -37,13 +37,13 @@ class _NewsService implements NewsService {
   Future<NewsResponse> news({
     String? keyword,
     String? searchIn,
-    String? domains,
+    String? domains = "bbc.co.uk, techcrunch.com, engadget.com",
     String? excludeDomains,
     String? from,
     String? to,
     String? sortBy = 'publishedAt',
     String? language,
-    int? pageSize = 100,
+    int? pageSize = 15,
     int? page = 1,
     String apiKey = 'a2a6e2ced3de453b829a97c95ba1fdbd',
   }) async {

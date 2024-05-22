@@ -18,7 +18,7 @@ abstract class NewsService {
 
     /// eg. title description content Multiple options can
     /// be specified by separating them with a comma, for example: title,content.
-    @Query('domains') String? domains,
+    @Query('domains') String? domains = "bbc.co.uk, techcrunch.com, engadget.com",
     @Query('excludeDomains') String? excludeDomains,
     @Query('from') String? from,
     @Query('to') String? to,
@@ -28,7 +28,7 @@ abstract class NewsService {
     ///Possible options: relevancy, popularity,
     ///publishedAt.
     ///
-    @Query('pageSize') int? pageSize = 100,
+    @Query('pageSize') int? pageSize = 15,
     @Query('page') int? page = 1,
     @Query('apiKey') String apiKey = 'a2a6e2ced3de453b829a97c95ba1fdbd',
   });

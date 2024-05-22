@@ -209,19 +209,19 @@ class _NewsHomePageState extends State<NewsHomePage> {
       if (route?.isCurrent == false) {
         return;
       }
+      if (mounted) {
+        int nextPage = controller.page!.round() + 1;
+        int itemCount = news.length;
 
-      int nextPage = controller.page!.round() + 1;
-      int itemCount = news.length;
-
-      if (nextPage >= itemCount) {
-        nextPage = 0;
+        if (nextPage >= itemCount) {
+          nextPage = 0;
+        }
+        controller.animateToPage(
+          nextPage,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
       }
-
-      controller.animateToPage(
-        nextPage,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
     });
   }
 
