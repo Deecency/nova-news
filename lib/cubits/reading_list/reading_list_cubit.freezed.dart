@@ -36,21 +36,21 @@ mixin _$ReadingListState {
   TResult when<TResult extends Object?>(
     TResult Function(List<News> news) $default, {
     required TResult Function(List<News> news) initial,
-    required TResult Function(List<News> news) data,
+    required TResult Function(List<News> news, bool added) data,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(List<News> news)? $default, {
     TResult? Function(List<News> news)? initial,
-    TResult? Function(List<News> news)? data,
+    TResult? Function(List<News> news, bool added)? data,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(List<News> news)? $default, {
     TResult Function(List<News> news)? initial,
-    TResult Function(List<News> news)? data,
+    TResult Function(List<News> news, bool added)? data,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -201,7 +201,7 @@ class _$ReadingListStateImpl extends _ReadingListState {
   TResult when<TResult extends Object?>(
     TResult Function(List<News> news) $default, {
     required TResult Function(List<News> news) initial,
-    required TResult Function(List<News> news) data,
+    required TResult Function(List<News> news, bool added) data,
   }) {
     return $default(news);
   }
@@ -211,7 +211,7 @@ class _$ReadingListStateImpl extends _ReadingListState {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(List<News> news)? $default, {
     TResult? Function(List<News> news)? initial,
-    TResult? Function(List<News> news)? data,
+    TResult? Function(List<News> news, bool added)? data,
   }) {
     return $default?.call(news);
   }
@@ -221,7 +221,7 @@ class _$ReadingListStateImpl extends _ReadingListState {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(List<News> news)? $default, {
     TResult Function(List<News> news)? initial,
-    TResult Function(List<News> news)? data,
+    TResult Function(List<News> news, bool added)? data,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -373,7 +373,7 @@ class _$InitialNewsStateImpl extends InitialNewsState {
   TResult when<TResult extends Object?>(
     TResult Function(List<News> news) $default, {
     required TResult Function(List<News> news) initial,
-    required TResult Function(List<News> news) data,
+    required TResult Function(List<News> news, bool added) data,
   }) {
     return initial(news);
   }
@@ -383,7 +383,7 @@ class _$InitialNewsStateImpl extends InitialNewsState {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(List<News> news)? $default, {
     TResult? Function(List<News> news)? initial,
-    TResult? Function(List<News> news)? data,
+    TResult? Function(List<News> news, bool added)? data,
   }) {
     return initial?.call(news);
   }
@@ -393,7 +393,7 @@ class _$InitialNewsStateImpl extends InitialNewsState {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(List<News> news)? $default, {
     TResult Function(List<News> news)? initial,
-    TResult Function(List<News> news)? data,
+    TResult Function(List<News> news, bool added)? data,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -468,7 +468,7 @@ abstract class _$$DataNewsStateImplCopyWith<$Res>
       __$$DataNewsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<News> news});
+  $Res call({List<News> news, bool added});
 }
 
 /// @nodoc
@@ -483,12 +483,17 @@ class __$$DataNewsStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? news = null,
+    Object? added = null,
   }) {
     return _then(_$DataNewsStateImpl(
       null == news
           ? _value._news
           : news // ignore: cast_nullable_to_non_nullable
               as List<News>,
+      null == added
+          ? _value.added
+          : added // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -496,7 +501,8 @@ class __$$DataNewsStateImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DataNewsStateImpl extends DataNewsState {
-  const _$DataNewsStateImpl(final List<News> news, {final String? $type})
+  const _$DataNewsStateImpl(final List<News> news, this.added,
+      {final String? $type})
       : _news = news,
         $type = $type ?? 'data',
         super._();
@@ -512,12 +518,15 @@ class _$DataNewsStateImpl extends DataNewsState {
     return EqualUnmodifiableListView(_news);
   }
 
+  @override
+  final bool added;
+
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'ReadingListState.data(news: $news)';
+    return 'ReadingListState.data(news: $news, added: $added)';
   }
 
   @override
@@ -525,13 +534,14 @@ class _$DataNewsStateImpl extends DataNewsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DataNewsStateImpl &&
-            const DeepCollectionEquality().equals(other._news, _news));
+            const DeepCollectionEquality().equals(other._news, _news) &&
+            (identical(other.added, added) || other.added == added));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_news));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_news), added);
 
   @JsonKey(ignore: true)
   @override
@@ -544,9 +554,9 @@ class _$DataNewsStateImpl extends DataNewsState {
   TResult when<TResult extends Object?>(
     TResult Function(List<News> news) $default, {
     required TResult Function(List<News> news) initial,
-    required TResult Function(List<News> news) data,
+    required TResult Function(List<News> news, bool added) data,
   }) {
-    return data(news);
+    return data(news, added);
   }
 
   @override
@@ -554,9 +564,9 @@ class _$DataNewsStateImpl extends DataNewsState {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(List<News> news)? $default, {
     TResult? Function(List<News> news)? initial,
-    TResult? Function(List<News> news)? data,
+    TResult? Function(List<News> news, bool added)? data,
   }) {
-    return data?.call(news);
+    return data?.call(news, added);
   }
 
   @override
@@ -564,11 +574,11 @@ class _$DataNewsStateImpl extends DataNewsState {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(List<News> news)? $default, {
     TResult Function(List<News> news)? initial,
-    TResult Function(List<News> news)? data,
+    TResult Function(List<News> news, bool added)? data,
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(news);
+      return data(news, added);
     }
     return orElse();
   }
@@ -616,7 +626,8 @@ class _$DataNewsStateImpl extends DataNewsState {
 }
 
 abstract class DataNewsState extends ReadingListState {
-  const factory DataNewsState(final List<News> news) = _$DataNewsStateImpl;
+  const factory DataNewsState(final List<News> news, final bool added) =
+      _$DataNewsStateImpl;
   const DataNewsState._() : super._();
 
   factory DataNewsState.fromJson(Map<String, dynamic> json) =
@@ -624,6 +635,7 @@ abstract class DataNewsState extends ReadingListState {
 
   @override
   List<News> get news;
+  bool get added;
   @override
   @JsonKey(ignore: true)
   _$$DataNewsStateImplCopyWith<_$DataNewsStateImpl> get copyWith =>

@@ -9,7 +9,7 @@ class ReadingListState with _$ReadingListState {
   const ReadingListState._();
 
   const factory ReadingListState.initial(List<News> news) = InitialNewsState;
-  const factory ReadingListState.data(List<News> news) = DataNewsState;
+  const factory ReadingListState.data(List<News> news, bool added) = DataNewsState;
 
   factory ReadingListState.fromJson(String source) =>
       ReadingListState.fromMap(json.decode(source) as Map<String, dynamic>);

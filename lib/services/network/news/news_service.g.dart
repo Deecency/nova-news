@@ -43,7 +43,7 @@ class _NewsService implements NewsService {
     String? to,
     String? sortBy = 'publishedAt',
     String? language,
-    int? pageSize = 15,
+    int? pageSize = 20,
     int? page = 1,
     String apiKey = 'a2a6e2ced3de453b829a97c95ba1fdbd',
   }) async {
@@ -88,23 +88,21 @@ class _NewsService implements NewsService {
   @override
   Future<NewsResponse> newsByCategory({
     String? keyword,
-    String? searchIn,
-    String? domains = "bbc.co.uk, techcrunch.com, engadget.com",
-    String? excludeDomains,
+    String? category,
+    String? country,
     String? from,
     String? to,
     String? sortBy = 'publishedAt',
     String? language,
-    int? pageSize = 15,
+    int? pageSize = 20,
     int? page = 1,
     String apiKey = 'a2a6e2ced3de453b829a97c95ba1fdbd',
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'q': keyword,
-      r'searchIn': searchIn,
-      r'domains': domains,
-      r'excludeDomains': excludeDomains,
+      r'category': category,
+      r'country': country,
       r'from': from,
       r'to': to,
       r'sortBy': sortBy,

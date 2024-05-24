@@ -15,26 +15,23 @@ class ReadingListCubit extends HydratedCubit<ReadingListState> {
   /// Create a new instance of [ReadingListCubit].
   ReadingListCubit() : super(const ReadingListState.initial([]));
 
-  /// Method used to perform the [setNews] action
-  FutureOr<void> setNews(List<News> news) {
-    emit(ReadingListState.data(news));
-  }
-
   /// Method used to perform the [addNews] action
   FutureOr<void> addNews(News news) {
     emit(!state.news.contains(news)
-        ? ReadingListState.data([...state.news, news])
-        : ReadingListState.data(state.news));
+        ? ReadingListState.data([...state.news, news], true)
+        : ReadingListState.data(state.news, false));
   }
 
   /// Method used to perform the [removeNews] action
-  FutureOr<void> removeNews() {
-    //TODO: map removeNews to NewsState states
+  FutureOr<void> removeNews(News news) {
+    final newsList = state.news;
+    newsList.remove(news);
+    emit(ReadingListState.data(newsList, false));
   }
 
   /// Method used to perform the [clearList] action
   FutureOr<void> clearList() {
-    emit(const ReadingListState.data([]));
+    emit(const ReadingListState.data([], false));
   }
 
   @override

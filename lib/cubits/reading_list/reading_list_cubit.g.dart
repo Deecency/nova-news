@@ -43,11 +43,13 @@ _$DataNewsStateImpl _$$DataNewsStateImplFromJson(Map<String, dynamic> json) =>
       (json['news'] as List<dynamic>)
           .map((e) => News.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['added'] as bool,
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$DataNewsStateImplToJson(_$DataNewsStateImpl instance) =>
     <String, dynamic>{
       'news': instance.news,
+      'added': instance.added,
       'runtimeType': instance.$type,
     };

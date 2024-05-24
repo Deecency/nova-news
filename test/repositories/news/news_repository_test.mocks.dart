@@ -134,7 +134,7 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
     String? to,
     String? sortBy = r'publishedAt',
     String? language,
-    int? pageSize = 15,
+    int? pageSize = 20,
     int? page = 1,
     String? apiKey = r'a2a6e2ced3de453b829a97c95ba1fdbd',
   }) =>
@@ -181,14 +181,13 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
   @override
   _i8.Future<_i2.NewsResponse> newsByCategory({
     String? keyword,
-    String? searchIn,
-    String? domains = r'bbc.co.uk, techcrunch.com, engadget.com',
-    String? excludeDomains,
+    String? category,
+    String? country,
     String? from,
     String? to,
     String? sortBy = r'publishedAt',
     String? language,
-    int? pageSize = 15,
+    int? pageSize = 20,
     int? page = 1,
     String? apiKey = r'a2a6e2ced3de453b829a97c95ba1fdbd',
   }) =>
@@ -198,9 +197,8 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
           [],
           {
             #keyword: keyword,
-            #searchIn: searchIn,
-            #domains: domains,
-            #excludeDomains: excludeDomains,
+            #category: category,
+            #country: country,
             #from: from,
             #to: to,
             #sortBy: sortBy,
@@ -217,9 +215,8 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
             [],
             {
               #keyword: keyword,
-              #searchIn: searchIn,
-              #domains: domains,
-              #excludeDomains: excludeDomains,
+              #category: category,
+              #country: country,
               #from: from,
               #to: to,
               #sortBy: sortBy,

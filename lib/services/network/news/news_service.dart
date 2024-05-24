@@ -28,7 +28,7 @@ abstract class NewsService {
     ///Possible options: relevancy, popularity,
     ///publishedAt.
     ///
-    @Query('pageSize') int? pageSize = 15,
+    @Query('pageSize') int? pageSize = 20,
     @Query('page') int? page = 1,
     @Query('apiKey') String apiKey = 'a2a6e2ced3de453b829a97c95ba1fdbd',
   });
@@ -36,21 +36,13 @@ abstract class NewsService {
   @GET('/category')
   Future<NewsResponse> newsByCategory({
     @Query('q') String? keyword,
-    @Query('searchIn') String? searchIn,
-
-    /// eg. title description content Multiple options can
-    /// be specified by separating them with a comma, for example: title,content.
-    @Query('domains') String? domains = "bbc.co.uk, techcrunch.com, engadget.com",
-    @Query('excludeDomains') String? excludeDomains,
+    @Query('category') String? category,
+    @Query('country') String? country,
     @Query('from') String? from,
     @Query('to') String? to,
     @Query('sortBy') String? sortBy = 'publishedAt',
     @Query('language') String? language,
-
-    ///Possible options: relevancy, popularity,
-    ///publishedAt.
-    ///
-    @Query('pageSize') int? pageSize = 15,
+    @Query('pageSize') int? pageSize = 20,
     @Query('page') int? page = 1,
     @Query('apiKey') String apiKey = 'a2a6e2ced3de453b829a97c95ba1fdbd',
   });

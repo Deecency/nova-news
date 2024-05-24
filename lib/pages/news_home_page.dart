@@ -87,6 +87,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
       },
     );
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         top: true,
         minimum: EdgeInsets.symmetric(horizontal: 0.relWidth).copyWith(top: 52.relHeight),
