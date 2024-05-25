@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:news_app/blocs/news/news_bloc.dart';
 import 'package:mockito/annotations.dart';
@@ -7,15 +8,17 @@ import 'package:news_app/repositories/news_repository.dart';
 
 import 'news_bloc_test.mocks.dart';
 
-@GenerateMocks([NewsRepository, LocalRepository])
+@GenerateMocks([NewsRepository, LocalRepository, BuildContext])
 void main() {
   late NewsBloc bloc;
   late MockNewsRepository newsRepository;
   late MockLocalRepository localRepository;
+  late MockBuildContext context;
 
   setUp(() {
     newsRepository = MockNewsRepository();
     localRepository = MockLocalRepository();
+    context = MockBuildContext();
     bloc = NewsBloc(newsRepository: newsRepository, localRepository: localRepository);
   });
 
@@ -28,7 +31,7 @@ void main() {
       },
       build: () => bloc,
       act: (bloc) {
-        bloc.fetch();
+        bloc.fetch(context);
       },
       expect: () => <NewsState>[
         //TODO: define the emitted NewsState states

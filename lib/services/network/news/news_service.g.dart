@@ -89,7 +89,7 @@ class _NewsService implements NewsService {
   Future<NewsResponse> newsByCategory({
     String? keyword,
     String? category,
-    String? country,
+    String? country = "us",
     String? from,
     String? to,
     String? sortBy = 'publishedAt',
@@ -122,7 +122,7 @@ class _NewsService implements NewsService {
     )
             .compose(
               _dio.options,
-              '/category',
+              '/top-headlines',
               queryParameters: queryParameters,
               data: _data,
             )

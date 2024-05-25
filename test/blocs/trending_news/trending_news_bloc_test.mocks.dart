@@ -3,12 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i6;
 
-import 'package:flutter/cupertino.dart' as _i6;
+import 'package:flutter/cupertino.dart' as _i3;
+import 'package:flutter/foundation.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:news_app/models/news/news.dart' as _i5;
-import 'package:news_app/repositories/news_repository.dart' as _i3;
+import 'package:news_app/models/news/news.dart' as _i7;
+import 'package:news_app/repositories/news_repository.dart' as _i5;
 import 'package:news_app/services/network/api_result.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -34,25 +35,72 @@ class _FakeApiResult_0<T> extends _i1.SmartFake implements _i2.ApiResult<T> {
         );
 }
 
+class _FakeWidget_1 extends _i1.SmartFake implements _i3.Widget {
+  _FakeWidget_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+
+  @override
+  String toString({_i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
+class _FakeInheritedWidget_2 extends _i1.SmartFake
+    implements _i3.InheritedWidget {
+  _FakeInheritedWidget_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+
+  @override
+  String toString({_i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
+class _FakeDiagnosticsNode_3 extends _i1.SmartFake
+    implements _i3.DiagnosticsNode {
+  _FakeDiagnosticsNode_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+
+  @override
+  String toString({
+    _i4.TextTreeConfiguration? parentConfiguration,
+    _i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info,
+  }) =>
+      super.toString();
+}
+
 /// A class which mocks [NewsRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNewsRepository extends _i1.Mock implements _i3.NewsRepository {
+class MockNewsRepository extends _i1.Mock implements _i5.NewsRepository {
   MockNewsRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.ApiResult<List<_i5.News>>> news(
-          {required _i6.BuildContext? context}) =>
+  _i6.Future<_i2.ApiResult<List<_i7.News>>> news(
+          {required _i3.BuildContext? context}) =>
       (super.noSuchMethod(
         Invocation.method(
           #news,
           [],
           {#context: context},
         ),
-        returnValue: _i4.Future<_i2.ApiResult<List<_i5.News>>>.value(
-            _FakeApiResult_0<List<_i5.News>>(
+        returnValue: _i6.Future<_i2.ApiResult<List<_i7.News>>>.value(
+            _FakeApiResult_0<List<_i7.News>>(
           this,
           Invocation.method(
             #news,
@@ -60,19 +108,19 @@ class MockNewsRepository extends _i1.Mock implements _i3.NewsRepository {
             {#context: context},
           ),
         )),
-      ) as _i4.Future<_i2.ApiResult<List<_i5.News>>>);
+      ) as _i6.Future<_i2.ApiResult<List<_i7.News>>>);
 
   @override
-  _i4.Future<_i2.ApiResult<List<_i5.News>>> trendingNews(
-          {required _i6.BuildContext? context}) =>
+  _i6.Future<_i2.ApiResult<List<_i7.News>>> trendingNews(
+          {required _i3.BuildContext? context}) =>
       (super.noSuchMethod(
         Invocation.method(
           #trendingNews,
           [],
           {#context: context},
         ),
-        returnValue: _i4.Future<_i2.ApiResult<List<_i5.News>>>.value(
-            _FakeApiResult_0<List<_i5.News>>(
+        returnValue: _i6.Future<_i2.ApiResult<List<_i7.News>>>.value(
+            _FakeApiResult_0<List<_i7.News>>(
           this,
           Invocation.method(
             #trendingNews,
@@ -80,5 +128,183 @@ class MockNewsRepository extends _i1.Mock implements _i3.NewsRepository {
             {#context: context},
           ),
         )),
-      ) as _i4.Future<_i2.ApiResult<List<_i5.News>>>);
+      ) as _i6.Future<_i2.ApiResult<List<_i7.News>>>);
+
+  @override
+  _i6.Future<_i2.ApiResult<List<_i7.News>>> newsByCategory({
+    required _i3.BuildContext? context,
+    required String? category,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #newsByCategory,
+          [],
+          {
+            #context: context,
+            #category: category,
+          },
+        ),
+        returnValue: _i6.Future<_i2.ApiResult<List<_i7.News>>>.value(
+            _FakeApiResult_0<List<_i7.News>>(
+          this,
+          Invocation.method(
+            #newsByCategory,
+            [],
+            {
+              #context: context,
+              #category: category,
+            },
+          ),
+        )),
+      ) as _i6.Future<_i2.ApiResult<List<_i7.News>>>);
+}
+
+/// A class which mocks [BuildContext].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
+  MockBuildContext() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Widget get widget => (super.noSuchMethod(
+        Invocation.getter(#widget),
+        returnValue: _FakeWidget_1(
+          this,
+          Invocation.getter(#widget),
+        ),
+      ) as _i3.Widget);
+
+  @override
+  bool get mounted => (super.noSuchMethod(
+        Invocation.getter(#mounted),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool get debugDoingBuild => (super.noSuchMethod(
+        Invocation.getter(#debugDoingBuild),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i3.InheritedWidget dependOnInheritedElement(
+    _i3.InheritedElement? ancestor, {
+    Object? aspect,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #dependOnInheritedElement,
+          [ancestor],
+          {#aspect: aspect},
+        ),
+        returnValue: _FakeInheritedWidget_2(
+          this,
+          Invocation.method(
+            #dependOnInheritedElement,
+            [ancestor],
+            {#aspect: aspect},
+          ),
+        ),
+      ) as _i3.InheritedWidget);
+
+  @override
+  void visitAncestorElements(_i3.ConditionalElementVisitor? visitor) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #visitAncestorElements,
+          [visitor],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void visitChildElements(_i3.ElementVisitor? visitor) => super.noSuchMethod(
+        Invocation.method(
+          #visitChildElements,
+          [visitor],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispatchNotification(_i3.Notification? notification) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #dispatchNotification,
+          [notification],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i3.DiagnosticsNode describeElement(
+    String? name, {
+    _i4.DiagnosticsTreeStyle? style = _i4.DiagnosticsTreeStyle.errorProperty,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #describeElement,
+          [name],
+          {#style: style},
+        ),
+        returnValue: _FakeDiagnosticsNode_3(
+          this,
+          Invocation.method(
+            #describeElement,
+            [name],
+            {#style: style},
+          ),
+        ),
+      ) as _i3.DiagnosticsNode);
+
+  @override
+  _i3.DiagnosticsNode describeWidget(
+    String? name, {
+    _i4.DiagnosticsTreeStyle? style = _i4.DiagnosticsTreeStyle.errorProperty,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #describeWidget,
+          [name],
+          {#style: style},
+        ),
+        returnValue: _FakeDiagnosticsNode_3(
+          this,
+          Invocation.method(
+            #describeWidget,
+            [name],
+            {#style: style},
+          ),
+        ),
+      ) as _i3.DiagnosticsNode);
+
+  @override
+  List<_i3.DiagnosticsNode> describeMissingAncestor(
+          {required Type? expectedAncestorType}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #describeMissingAncestor,
+          [],
+          {#expectedAncestorType: expectedAncestorType},
+        ),
+        returnValue: <_i3.DiagnosticsNode>[],
+      ) as List<_i3.DiagnosticsNode>);
+
+  @override
+  _i3.DiagnosticsNode describeOwnershipChain(String? name) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #describeOwnershipChain,
+          [name],
+        ),
+        returnValue: _FakeDiagnosticsNode_3(
+          this,
+          Invocation.method(
+            #describeOwnershipChain,
+            [name],
+          ),
+        ),
+      ) as _i3.DiagnosticsNode);
 }

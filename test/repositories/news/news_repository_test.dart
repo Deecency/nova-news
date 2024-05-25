@@ -4,7 +4,6 @@ import 'package:news_app/repositories/mappers/news_mapper.dart';
 import 'package:news_app/repositories/news_repository.dart';
 import 'package:news_app/services/network/news/news_service.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:talker/talker.dart';
 
 import 'news_repository_test.mocks.dart';

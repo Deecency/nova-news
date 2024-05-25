@@ -2,18 +2,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:news_app/blocs/news/news_bloc.dart';
 import 'package:news_app/blocs/trending_news/trending_news_bloc.dart';
-import 'package:news_app/cubits/reading_list/reading_list_cubit.dart';
+import 'package:news_app/cubits/business_news/business_news_cubit.dart';
+import 'package:news_app/cubits/entertainment_news/entertainment_news_cubit.dart';
+import 'package:news_app/cubits/health_news/health_news_cubit.dart';
+import 'package:news_app/cubits/science_news/science_news_cubit.dart';
+import 'package:news_app/cubits/sport_news/sport_news_cubit.dart';
+import 'package:news_app/cubits/technology_news/technology_news_cubit.dart';
 import 'package:news_app/models/news/news.dart';
-import 'package:news_app/shared/globals.dart';
-import 'package:news_app/shared/size_config/extensions.dart';
-import 'package:news_app/shared/widgets/cards.dart';
-import 'package:news_app/shared/widgets/category_tab_bar.dart';
-import 'package:news_app/shared/widgets/news_carousel.dart';
-import 'package:news_app/shared/widgets/search_bar.dart';
-import 'package:news_app/shared/widgets/sliver.dart';
+import 'package:news_app/providers/news/news_providers.dart';
+import 'package:news_app/shared/shared.dart';
 
 /// Enter the NewsHome documentation here
 @RoutePage()
@@ -25,21 +24,7 @@ class NewsHomePage extends StatefulWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(
-        providers: [
-          BlocProvider<NewsBloc>(
-            create: (context) => NewsBloc(
-              newsRepository: context.read(),
-              localRepository: context.read(),
-            ),
-          ),
-          BlocProvider<TrendingNewsBloc>(
-              create: (context) => TrendingNewsBloc(
-                    newsRepository: context.read(),
-                  )),
-          BlocProvider<ReadingListCubit>(
-            create: (context) => ReadingListCubit(),
-          ),
-        ],
+        providers: newsProviders,
         child: this,
       );
 }
@@ -89,7 +74,6 @@ class _NewsHomePageState extends State<NewsHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        top: true,
         minimum: EdgeInsets.symmetric(horizontal: 0.relWidth).copyWith(top: 52.relHeight),
         bottom: false,
         child: RefreshIndicator(
@@ -164,8 +148,8 @@ class _NewsHomePageState extends State<NewsHomePage> {
   }
 
   Future<void> _onRefresh() async {
-    context.read<NewsBloc>().fetch(context);
     context.read<TrendingNewsBloc>().fetch(context);
+    categoryIndex == 0 ? context.read<NewsBloc>().fetch(context) : _refreshCategory(categoryIndex);
   }
 
   void _handleTabTap(int index) {
@@ -181,6 +165,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
         );
       }
     });
+    _handleCategoryChange(index);
   }
 
   void _clearTimer() {
@@ -226,12 +211,126 @@ class _NewsHomePageState extends State<NewsHomePage> {
     });
   }
 
+  void _handleCategoryChange(index) {
+    if (index != 0) {
+      switch (index) {
+        case 1:
+          final state = context.read<BusinessNewsCubit>().state;
+          if (state is InitialBusinessNewsState || state is ErrorBusinessNewsState) {
+            context.read<BusinessNewsCubit>().getNews(
+                  context: context,
+                  category: K.NEWS_TABBAR_TEXTS[index],
+                );
+          }
+
+        case 2:
+          final state = context.read<EntertainmentNewsCubit>().state;
+          if (state is InitialEntertainmentNewsState || state is ErrorEntertainmentNewsState) {
+            context.read<EntertainmentNewsCubit>().getNews(
+                  context: context,
+                  category: K.NEWS_TABBAR_TEXTS[index],
+                );
+          }
+
+        case 3:
+          final state = context.read<HealthNewsCubit>().state;
+          if (state is InitialHealthNewsState || state is ErrorHealthNewsState) {
+            context.read<HealthNewsCubit>().getNews(
+                  context: context,
+                  category: K.NEWS_TABBAR_TEXTS[index],
+                );
+          }
+
+        case 4:
+          final state = context.read<ScienceNewsCubit>().state;
+
+          if (state is InitialScienceNewsState || state is ErrorScienceNewsState) {
+            context.read<ScienceNewsCubit>().getNews(
+                  context: context,
+                  category: K.NEWS_TABBAR_TEXTS[index],
+                );
+          }
+
+        case 5:
+          final state = context.read<ScienceNewsCubit>().state;
+          if (state is InitialSportNewsState || state is ErrorScienceNewsState) {
+            context
+                .read<SportNewsCubit>()
+                .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
+          }
+
+        case 6:
+          final state = context.read<ScienceNewsCubit>().state;
+          if (state is InitialTechnologyNewsState || state is ErrorScienceNewsState) {
+            context
+                .read<TechnologyNewsCubit>()
+                .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
+          }
+
+        default:
+          throw Exception('Invalid index: $index');
+      }
+    }
+  }
+
+  void _refreshCategory(index) {
+    if (index != 0) {
+      switch (index) {
+        case 1:
+          context.read<BusinessNewsCubit>().getNews(
+                context: context,
+                category: K.NEWS_TABBAR_TEXTS[index],
+              );
+        case 2:
+          context.read<EntertainmentNewsCubit>().getNews(
+                context: context,
+                category: K.NEWS_TABBAR_TEXTS[index],
+              );
+
+        case 3:
+          context.read<HealthNewsCubit>().getNews(
+                context: context,
+                category: K.NEWS_TABBAR_TEXTS[index],
+              );
+        case 4:
+          context.read<ScienceNewsCubit>().getNews(
+                context: context,
+                category: K.NEWS_TABBAR_TEXTS[index],
+              );
+
+        case 5:
+          context
+              .read<SportNewsCubit>()
+              .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
+        case 6:
+          context
+              .read<TechnologyNewsCubit>()
+              .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
+
+        default:
+          throw Exception('Invalid index: $index');
+      }
+    }
+  }
+
   Widget _mapToCategory(int index) {
     switch (index) {
       case 0:
         return BlocBuilder<NewsBloc, NewsState>(
           builder: (context, state) => _mapToState(state),
         );
+      case 1:
+        return const BusinessCategory();
+      case 2:
+        return const EntertainmentCategory();
+      case 3:
+        return const HealthCategory();
+      case 4:
+        return const ScienceCategory();
+      case 5:
+        return const SportCategory();
+      case 6:
+        return const TechnologyCategory();
       default:
         return const SizedBox.shrink();
     }

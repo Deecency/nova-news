@@ -5,7 +5,6 @@ import 'package:news_app/di/dependency_injector.dart';
 import 'package:news_app/routes/app_route.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
-import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,7 @@ Future<void> main() async {
   ]);
 
   Bloc.observer = TalkerBlocObserver(
-      settings: TalkerBlocLoggerSettings(
+      settings: const TalkerBlocLoggerSettings(
     enabled: true,
     printChanges: true,
     printStateFullData: true,

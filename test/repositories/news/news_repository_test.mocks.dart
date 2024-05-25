@@ -182,7 +182,7 @@ class MockNewsService extends _i1.Mock implements _i2.NewsService {
   _i8.Future<_i2.NewsResponse> newsByCategory({
     String? keyword,
     String? category,
-    String? country,
+    String? country = r'us',
     String? from,
     String? to,
     String? sortBy = r'publishedAt',

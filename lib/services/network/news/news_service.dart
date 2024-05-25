@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:news_app/services/network/jto/news/news_jto.dart';
 import 'package:retrofit/retrofit.dart';
@@ -33,11 +32,11 @@ abstract class NewsService {
     @Query('apiKey') String apiKey = '',
   });
 
-  @GET('/category')
+  @GET('/top-headlines')
   Future<NewsResponse> newsByCategory({
     @Query('q') String? keyword,
     @Query('category') String? category,
-    @Query('country') String? country,
+    @Query('country') String? country = "us",
     @Query('from') String? from,
     @Query('to') String? to,
     @Query('sortBy') String? sortBy = 'publishedAt',
