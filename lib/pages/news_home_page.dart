@@ -252,16 +252,16 @@ class _NewsHomePageState extends State<NewsHomePage> {
           }
 
         case 5:
-          final state = context.read<ScienceNewsCubit>().state;
-          if (state is InitialSportNewsState || state is ErrorScienceNewsState) {
+          final state = context.read<SportNewsCubit>().state;
+          if (state is InitialSportNewsState || state is ErrorSportNewsState) {
             context
                 .read<SportNewsCubit>()
                 .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
           }
 
         case 6:
-          final state = context.read<ScienceNewsCubit>().state;
-          if (state is InitialTechnologyNewsState || state is ErrorScienceNewsState) {
+          final state = context.read<TechnologyNewsCubit>().state;
+          if (state is InitialTechnologyNewsState || state is ErrorTechnologyNewsState) {
             context
                 .read<TechnologyNewsCubit>()
                 .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
