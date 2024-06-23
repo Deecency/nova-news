@@ -133,6 +133,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
                 hasScrollBody: false,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Builder(
                       builder: (context) => _mapToCategory(categoryIndex),
@@ -157,12 +158,13 @@ class _NewsHomePageState extends State<NewsHomePage> {
       categoryIndex = index;
       final context = keys[categoryIndex].currentContext;
       if (context != null) {
-        Scrollable.ensureVisible(
-          context,
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeInOut,
-          alignment: 0.5,
-        );
+        // Scrollable.ensureVisible(
+        //   context,
+        //   duration: const Duration(milliseconds: 200),
+        //   curve: Curves.easeInOut,
+        //   alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+        //   alignment: 0.5,
+        // );
       }
     });
     _handleCategoryChange(index);

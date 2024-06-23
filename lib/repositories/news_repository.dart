@@ -35,7 +35,7 @@ class NewsRepositoryImpl implements NewsRepository {
       final jtos = await newsService.news();
       return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
     } catch (e, stackTrace) {
-      K.handleError(context, e: e);
+      K.handleError(e: e);
       if (e is DioException) {
         Talker().log("exception is $e and $stackTrace");
         return ApiResult()
@@ -60,7 +60,7 @@ class NewsRepositoryImpl implements NewsRepository {
       );
       return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
     } catch (e, stackTrace) {
-      K.handleError(context, e: e);
+      K.handleError(e: e);
       if (e is DioException) {
         Talker().log("exception is $e and $stackTrace");
         return ApiResult()
@@ -84,7 +84,8 @@ class NewsRepositoryImpl implements NewsRepository {
       );
       return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
     } catch (e, stackTrace) {
-      K.handleError(context, e: e);
+      K.handleError(e: e);
+
       if (e is DioException) {
         Talker().log("exception is $e and $stackTrace");
         return ApiResult()

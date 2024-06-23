@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:news_app/di/dependency_injector.dart';
 import 'package:news_app/routes/app_route.dart';
+import 'package:news_app/shared/shared.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 
@@ -29,7 +30,7 @@ Future<void> main() async {
 }
 
 class App extends StatelessWidget {
-  final _router = AppRouter();
+  final _router = AppRouter(navigatorKey: navigatorKey);
 
   App({super.key});
 
@@ -45,7 +46,7 @@ class App extends StatelessWidget {
             useMaterial3: true,
             appBarTheme: const AppBarTheme(
               centerTitle: true,
-              toolbarHeight: 80.0,
+              toolbarHeight: 50.0,
             ),
             dividerTheme: const DividerThemeData(
               thickness: 1.0,
