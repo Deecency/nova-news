@@ -7,12 +7,14 @@ import 'package:news_app/blocs/trending_news/trending_news_bloc.dart';
 import 'package:news_app/cubits/business_news/business_news_cubit.dart';
 import 'package:news_app/cubits/entertainment_news/entertainment_news_cubit.dart';
 import 'package:news_app/cubits/health_news/health_news_cubit.dart';
+import 'package:news_app/cubits/reading_list/reading_list_cubit.dart';
 import 'package:news_app/cubits/science_news/science_news_cubit.dart';
 import 'package:news_app/cubits/sport_news/sport_news_cubit.dart';
 import 'package:news_app/cubits/technology_news/technology_news_cubit.dart';
 import 'package:news_app/models/news/news.dart';
 import 'package:news_app/providers/news/news_providers.dart';
 import 'package:news_app/shared/shared.dart';
+import 'package:news_app/shared/theme/colors.dart';
 import 'package:news_app/shared/widgets/no-data.dart';
 
 @RoutePage()
@@ -35,6 +37,107 @@ class _NewsHomePageState extends State<NewsHomePage> {
   late ScrollController _scrollController;
   Timer? _scrollStopTimer;
   bool _isScrolling = false;
+  OverlayEntry? _overlayEntry;
+
+  OverlayEntry _createOverlayEntry(News news, LayerLink link) {
+    RenderBox? renderBox = context.findRenderObject() as RenderBox;
+    var size = renderBox.size;
+
+    return OverlayEntry(
+      builder: (context) => Positioned(
+        height: size.height / 15,
+        width: size.width / 1.2,
+        child: CompositedTransformFollower(
+          link: link,
+          showWhenUnlinked: false,
+          offset: Offset(size.width / 5, size.height / 30),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
+            child: Material(
+              elevation: 10,
+              shadowColor: Colors.white30,
+              surfaceTintColor: Colors.white12,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4.h),
+              ),
+              type: MaterialType.card,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        context.read<ReadingListCubit>().addNews(news);
+                      },
+                      child: BlocBuilder<ReadingListCubit, ReadingListState>(
+                        builder: (context, state) {
+                          return Image.asset(
+                            _mapImageToState(state, news),
+                            height: 16.h,
+                            // color: data.contains(widget._) ? Colors.orange : null,
+                          );
+                        },
+                      ),
+                    ),
+                    Image.asset(
+                      "assets/icons/link.png",
+                      height: 16.h,
+                    ),
+                    Image.asset(
+                      "assets/icons/play.png",
+                      height: 16.h,
+                    ),
+                    InkWell(
+                      onTap: () => _removeOverlay(),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            "assets/icons/close_circle.png",
+                            color: AppColors.accentRed,
+                            height: 16.h,
+                          ),
+                          4.hSpacer,
+                          Text(
+                            "Close",
+                            style: TextStyle(
+                              fontSize: 8.text,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showOverlay(News news, LayerLink link) {
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
+
+    _overlayEntry = _createOverlayEntry(news, link);
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _removeOverlay() {
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+      setState(() {});
+    }
+  }
+
   PageController controller = PageController(viewportFraction: 0.85);
   _NewsHomePageState? newsHomePageState;
   int categoryIndex = 0;
@@ -59,6 +162,10 @@ class _NewsHomePageState extends State<NewsHomePage> {
   @override
   void dispose() {
     _clearTimer();
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
     super.dispose();
   }
 
@@ -101,6 +208,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
                   ),
                 ),
               ),
+              16.sliverVSpacer,
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Builder(
@@ -370,18 +478,37 @@ class _NewsHomePageState extends State<NewsHomePage> {
   Widget _buildNewsView(FetchedNewsState value) {
     final news =
         value.news.where((e) => e.title != "[Removed]" && !e.title!.contains("GMT")).toList();
+
+    final layerLinks = List.generate(news.length, (index) => LayerLink());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(
         news.length,
         (index) {
           final _ = news[index];
-          return NewsListCard(
-            news: _,
-            context: context,
+          final layerLink = layerLinks[index];
+          return CompositedTransformTarget(
+            link: layerLink,
+            child: NewsListCard(
+              news: _,
+              context: context,
+              menuClicked: () => _showOverlay(_, layerLink),
+            ),
           );
         },
       ),
+    );
+  }
+
+  String _mapImageToState(ReadingListState state, News news) {
+    return state.map(
+      (value) => "assets/icons/bookmark.png",
+      initial: (value) => "assets/icons/bookmark"
+          ".png",
+      data: (value) => value.news.contains(news)
+          ? "assets/icons/bookmark_bold.png"
+          : "assets/icons/bookmark.png",
     );
   }
 }
