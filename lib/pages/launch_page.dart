@@ -37,8 +37,8 @@ class _LaunchPageState extends State<LaunchPage> {
         child: Center(
           child: Image.asset(
             "assets/images/smileys.png",
-            height: 32.relHeight,
-            width: 132.relWidth,
+            height: 32.h,
+            width: 132.w,
           ),
         ),
       ),

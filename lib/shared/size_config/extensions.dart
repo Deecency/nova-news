@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-
-import 'config.dart';
+import 'package:news_app/shared/shared.dart';
 
 // Extensions to easily reach the size configuration class
 extension SizeExtension on num {
   double get height => SizeConfig.height(toDouble());
 
-  double get relHeight => SizeConfig.relHeight(toDouble());
+  double get h => SizeConfig.relHeight(toDouble());
   double get width => SizeConfig.width(toDouble());
-  double get relWidth => SizeConfig.relWidth(toDouble());
+  double get w => SizeConfig.relWidth(toDouble());
   SizedBox get vSpacer => SizedBox(
-        height: relHeight,
+        height: h,
       );
 
   SliverToBoxAdapter get sliverVSpacer => SliverToBoxAdapter(
@@ -18,7 +17,7 @@ extension SizeExtension on num {
       );
 
   SizedBox get hSpacer => SizedBox(
-        width: relWidth,
+        width: w,
       );
 
   double get text => SizeConfig.textSize(toDouble());

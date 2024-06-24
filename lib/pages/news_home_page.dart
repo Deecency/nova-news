@@ -13,6 +13,7 @@ import 'package:news_app/cubits/technology_news/technology_news_cubit.dart';
 import 'package:news_app/models/news/news.dart';
 import 'package:news_app/providers/news/news_providers.dart';
 import 'package:news_app/shared/shared.dart';
+import 'package:news_app/shared/widgets/no-data.dart';
 
 /// Enter the NewsHome documentation here
 @RoutePage()
@@ -71,77 +72,75 @@ class _NewsHomePageState extends State<NewsHomePage> {
         _handleAutoPlay(news);
       },
     );
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        minimum: EdgeInsets.symmetric(horizontal: 0.relWidth).copyWith(top: 52.relHeight),
-        bottom: false,
-        child: RefreshIndicator(
-          onRefresh: _onRefresh,
-          child: CustomScrollView(
-            slivers: [
-              NewsCarousel(controller: controller, currentPage: currentPage),
-              100.sliverVSpacer,
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: CustomSliver(
-                  expandedHeight: 40.relHeight,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          minimum: EdgeInsets.symmetric(horizontal: 0.w).copyWith(top: 52.h),
+          bottom: false,
+          child: RefreshIndicator(
+            onRefresh: _onRefresh,
+            child: CustomScrollView(
+              slivers: [
+                NewsCarousel(controller: controller, currentPage: currentPage),
+                100.sliverVSpacer,
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliver(
+                    expandedHeight: 40.h,
+                    child: Container(
+                      decoration: BoxDecoration(
                         color: Colors.white,
-                        strokeAlign: BorderSide.strokeAlignOutside,
+                        border: Border.all(
+                          color: Colors.white,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ),
                       ),
-                    ),
-                    child: SizedBox(
-                      height: 40.relHeight,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.zero,
-                        itemCount: tabs.length,
-                        itemBuilder: (context, index) => TabWidget(
-                          index: index,
-                          categoryIndex: categoryIndex,
-                          tabs: tabs,
-                          keys: keys,
-                          icons: icons,
-                          onTap: _handleTabTap,
+                      child: SizedBox(
+                        height: 40.h,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.zero,
+                          itemCount: tabs.length,
+                          itemBuilder: (context, index) => TabWidget(
+                            index: index,
+                            categoryIndex: categoryIndex,
+                            tabs: tabs,
+                            keys: keys,
+                            icons: icons,
+                            onTap: _handleTabTap,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              16.sliverVSpacer,
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.relWidth),
-                  child: Text(
-                    "Recent Stories",
-                    style: TextStyle(
-                      fontSize: 18.text,
-                      fontWeight: FontWeight.w600,
+                16.sliverVSpacer,
+                const NewsSearchBar(),
+                8.sliverVSpacer,
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Text(
+                      "Recent Stories",
+                      style: TextStyle(
+                        fontSize: 18.text,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const NewsSearchBar(),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Builder(
-                      builder: (context) => _mapToCategory(categoryIndex),
-                    ),
-                  ],
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Builder(
+                    builder: (context) => _mapToCategory(categoryIndex),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -318,9 +317,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
   Widget _mapToCategory(int index) {
     switch (index) {
       case 0:
-        return BlocBuilder<NewsBloc, NewsState>(
-          builder: (context, state) => _mapToState(state),
-        );
+        return allNews();
       case 1:
         return const BusinessCategory();
       case 2:
@@ -338,25 +335,19 @@ class _NewsHomePageState extends State<NewsHomePage> {
     }
   }
 
+  BlocBuilder<NewsBloc, NewsState> allNews() {
+    return BlocBuilder<NewsBloc, NewsState>(
+      builder: (context, state) => _mapToState(state),
+    );
+  }
+
   Widget _mapToState(NewsState state) {
     return state.map(
-        initial: (value) => const Center(
-              child: SizedBox.shrink(),
-            ),
-        fetching: (value) => const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator.adaptive(),
-              ],
-            ),
+        initial: (value) => const SizedBox.shrink(),
+        fetching: (value) => const LoadingWidget(),
         fetched: (value) => _buildNewsView(value),
-        none: (value) => InkWell(
-              onTap: () => context.read<NewsBloc>().fetch(context),
-              child: const Text(
-                "empty",
-              ),
-            ),
-        errorFetching: (value) => const SizedBox.shrink());
+        none: (value) => const NoDataAnimation(),
+        errorFetching: (value) => const NoDataAnimation());
   }
 
   Widget _buildNewsView(FetchedNewsState value) {

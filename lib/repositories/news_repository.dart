@@ -35,18 +35,11 @@ class NewsRepositoryImpl implements NewsRepository {
       final jtos = await newsService.news();
       return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
     } catch (e, stackTrace) {
-      K.handleError(e: e);
       if (e is DioException) {
         Talker().log("exception is $e and $stackTrace");
-        return ApiResult()
-          ..setException(
-            ErrorHandler.dioException(error: e),
-          );
+        return ApiResult()..setException(ErrorHandler.dioException(error: e));
       }
-      return ApiResult()
-        ..setException(
-          ErrorHandler.otherException(),
-        );
+      return ApiResult()..setException(ErrorHandler.otherException(error: e));
     }
   }
 
@@ -60,7 +53,7 @@ class NewsRepositoryImpl implements NewsRepository {
       );
       return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
     } catch (e, stackTrace) {
-      K.handleError(e: e);
+      //  K.handleError(e: e);
       if (e is DioException) {
         Talker().log("exception is $e and $stackTrace");
         return ApiResult()
@@ -68,10 +61,7 @@ class NewsRepositoryImpl implements NewsRepository {
             ErrorHandler.dioException(error: e),
           );
       }
-      return ApiResult()
-        ..setException(
-          ErrorHandler.otherException(),
-        );
+      return ApiResult()..setException(ErrorHandler.otherException(error: e));
     }
   }
 
@@ -84,7 +74,7 @@ class NewsRepositoryImpl implements NewsRepository {
       );
       return ApiResult()..setData(jtos.articles.map(newsMapper.fromDTO).toList(growable: false));
     } catch (e, stackTrace) {
-      K.handleError(e: e);
+      //   K.handleError(e: e);
 
       if (e is DioException) {
         Talker().log("exception is $e and $stackTrace");
@@ -95,7 +85,7 @@ class NewsRepositoryImpl implements NewsRepository {
       }
       return ApiResult()
         ..setException(
-          ErrorHandler.otherException(),
+          ErrorHandler.otherException(error: e),
         );
     }
   }
