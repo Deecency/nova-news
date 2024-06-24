@@ -15,7 +15,6 @@ import 'package:news_app/providers/news/news_providers.dart';
 import 'package:news_app/shared/shared.dart';
 import 'package:news_app/shared/widgets/no-data.dart';
 
-/// Enter the NewsHome documentation here
 @RoutePage()
 class NewsHomePage extends StatefulWidget implements AutoRouteWrapper {
   const NewsHomePage({super.key});
@@ -36,7 +35,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
   late ScrollController _scrollController;
   Timer? _scrollStopTimer;
   bool _isScrolling = false;
-  PageController controller = PageController();
+  PageController controller = PageController(viewportFraction: 0.85);
   _NewsHomePageState? newsHomePageState;
   int categoryIndex = 0;
   List<GlobalKey> keys = [];
@@ -86,7 +85,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
           child: CustomScrollView(
             controller: _scrollController,
             slivers: [
-              NewsCarousel(controller: controller, currentPage: currentPage),
+              AppHeader(controller: controller, currentPage: currentPage),
               100.sliverVSpacer,
               _buildTabBar(),
               const NewsSearchBar(),
@@ -96,7 +95,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
                   child: Text(
                     "Recent Stories",
                     style: TextStyle(
-                      fontSize: 16.text,
+                      fontSize: 14.text,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
