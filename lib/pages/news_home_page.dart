@@ -33,6 +33,9 @@ class NewsHomePage extends StatefulWidget implements AutoRouteWrapper {
 class _NewsHomePageState extends State<NewsHomePage> {
   int currentPage = 0;
   Timer? timer;
+  late ScrollController _scrollController;
+  Timer? _scrollStopTimer;
+  bool _isScrolling = false;
   PageController controller = PageController();
   _NewsHomePageState? newsHomePageState;
   int categoryIndex = 0;
@@ -43,9 +46,11 @@ class _NewsHomePageState extends State<NewsHomePage> {
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<NewsBloc>().fetch(context);
-      context.read<TrendingNewsBloc>().fetch(context);
+      context.read<NewsBloc>().fetch();
+      context.read<TrendingNewsBloc>().fetch();
     });
     setState(() {
       keys = List.generate(tabs.length, (index) => GlobalKey());
@@ -76,80 +81,69 @@ class _NewsHomePageState extends State<NewsHomePage> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-          minimum: EdgeInsets.symmetric(horizontal: 0.w).copyWith(top: 52.h),
-          bottom: false,
-          child: RefreshIndicator(
-            onRefresh: _onRefresh,
-            child: CustomScrollView(
-              slivers: [
-                NewsCarousel(controller: controller, currentPage: currentPage),
-                100.sliverVSpacer,
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: CustomSliver(
-                    expandedHeight: 40.h,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.white,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
-                      child: SizedBox(
-                        height: 40.h,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.zero,
-                          itemCount: tabs.length,
-                          itemBuilder: (context, index) => TabWidget(
-                            index: index,
-                            categoryIndex: categoryIndex,
-                            tabs: tabs,
-                            keys: keys,
-                            icons: icons,
-                            onTap: _handleTabTap,
-                          ),
-                        ),
-                      ),
+        body: RefreshIndicator(
+          onRefresh: _onRefresh,
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              NewsCarousel(controller: controller, currentPage: currentPage),
+              100.sliverVSpacer,
+              _buildTabBar(),
+              const NewsSearchBar(),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Text(
+                    "Recent Stories",
+                    style: TextStyle(
+                      fontSize: 16.text,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                16.sliverVSpacer,
-                const NewsSearchBar(),
-                8.sliverVSpacer,
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Text(
-                      "Recent Stories",
-                      style: TextStyle(
-                        fontSize: 18.text,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+              ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Builder(
+                  builder: (context) => _mapToCategory(categoryIndex),
                 ),
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Builder(
-                    builder: (context) => _mapToCategory(categoryIndex),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
+  void _scrollListener() {
+    if (_scrollStopTimer != null) {
+      _scrollStopTimer!.cancel();
+    }
+
+    if (!_isScrolling) {
+      setState(() {
+        _isScrolling = true;
+      });
+    }
+
+    _scrollStopTimer = Timer(const Duration(milliseconds: 200), () {
+      setState(() {
+        _isScrolling = false;
+      });
+      _onScrollEnd();
+    });
+  }
+
+  void _onScrollEnd() {
+    if (_scrollController.position.pixels < 200 && _scrollController.position.pixels > 10) {
+      _scrollController.animateTo(200,
+          duration: const Duration(milliseconds: 800), curve: Curves.linear);
+    }
+  }
+
   Future<void> _onRefresh() async {
-    context.read<TrendingNewsBloc>().fetch(context);
-    categoryIndex == 0 ? context.read<NewsBloc>().fetch(context) : _refreshCategory(categoryIndex);
+    context.read<TrendingNewsBloc>().fetch();
+    categoryIndex == 0 ? context.read<NewsBloc>().fetch() : _refreshCategory(categoryIndex);
   }
 
   void _handleTabTap(int index) {
@@ -219,7 +213,6 @@ class _NewsHomePageState extends State<NewsHomePage> {
           final state = context.read<BusinessNewsCubit>().state;
           if (state is InitialBusinessNewsState || state is ErrorBusinessNewsState) {
             context.read<BusinessNewsCubit>().getNews(
-                  context: context,
                   category: K.NEWS_TABBAR_TEXTS[index],
                 );
           }
@@ -228,7 +221,6 @@ class _NewsHomePageState extends State<NewsHomePage> {
           final state = context.read<EntertainmentNewsCubit>().state;
           if (state is InitialEntertainmentNewsState || state is ErrorEntertainmentNewsState) {
             context.read<EntertainmentNewsCubit>().getNews(
-                  context: context,
                   category: K.NEWS_TABBAR_TEXTS[index],
                 );
           }
@@ -237,7 +229,6 @@ class _NewsHomePageState extends State<NewsHomePage> {
           final state = context.read<HealthNewsCubit>().state;
           if (state is InitialHealthNewsState || state is ErrorHealthNewsState) {
             context.read<HealthNewsCubit>().getNews(
-                  context: context,
                   category: K.NEWS_TABBAR_TEXTS[index],
                 );
           }
@@ -247,7 +238,6 @@ class _NewsHomePageState extends State<NewsHomePage> {
 
           if (state is InitialScienceNewsState || state is ErrorScienceNewsState) {
             context.read<ScienceNewsCubit>().getNews(
-                  context: context,
                   category: K.NEWS_TABBAR_TEXTS[index],
                 );
           }
@@ -255,17 +245,13 @@ class _NewsHomePageState extends State<NewsHomePage> {
         case 5:
           final state = context.read<SportNewsCubit>().state;
           if (state is InitialSportNewsState || state is ErrorSportNewsState) {
-            context
-                .read<SportNewsCubit>()
-                .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
+            context.read<SportNewsCubit>().getNews(category: K.NEWS_TABBAR_TEXTS[index]);
           }
 
         case 6:
           final state = context.read<TechnologyNewsCubit>().state;
           if (state is InitialTechnologyNewsState || state is ErrorTechnologyNewsState) {
-            context
-                .read<TechnologyNewsCubit>()
-                .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
+            context.read<TechnologyNewsCubit>().getNews(category: K.NEWS_TABBAR_TEXTS[index]);
           }
 
         default:
@@ -279,39 +265,68 @@ class _NewsHomePageState extends State<NewsHomePage> {
       switch (index) {
         case 1:
           context.read<BusinessNewsCubit>().getNews(
-                context: context,
                 category: K.NEWS_TABBAR_TEXTS[index],
               );
         case 2:
           context.read<EntertainmentNewsCubit>().getNews(
-                context: context,
                 category: K.NEWS_TABBAR_TEXTS[index],
               );
 
         case 3:
           context.read<HealthNewsCubit>().getNews(
-                context: context,
                 category: K.NEWS_TABBAR_TEXTS[index],
               );
         case 4:
           context.read<ScienceNewsCubit>().getNews(
-                context: context,
                 category: K.NEWS_TABBAR_TEXTS[index],
               );
 
         case 5:
-          context
-              .read<SportNewsCubit>()
-              .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
+          context.read<SportNewsCubit>().getNews(category: K.NEWS_TABBAR_TEXTS[index]);
         case 6:
-          context
-              .read<TechnologyNewsCubit>()
-              .getNews(context: context, category: K.NEWS_TABBAR_TEXTS[index]);
+          context.read<TechnologyNewsCubit>().getNews(category: K.NEWS_TABBAR_TEXTS[index]);
 
         default:
           throw Exception('Invalid index: $index');
       }
     }
+  }
+
+  Widget _buildTabBar() {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: CustomSliver(
+        expandedHeight: 56.h,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: Colors.white,
+              strokeAlign: BorderSide.strokeAlignOutside,
+            ),
+          ),
+          child: SizedBox(
+            height: 40.h,
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const AlwaysScrollableScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.zero,
+              itemCount: tabs.length,
+              itemBuilder: (context, index) => TabWidget(
+                index: index,
+                categoryIndex: categoryIndex,
+                tabs: tabs,
+                keys: keys,
+                icons: icons,
+                onTap: _handleTabTap,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _mapToCategory(int index) {
@@ -343,11 +358,14 @@ class _NewsHomePageState extends State<NewsHomePage> {
 
   Widget _mapToState(NewsState state) {
     return state.map(
-        initial: (value) => const SizedBox.shrink(),
-        fetching: (value) => const LoadingWidget(),
-        fetched: (value) => _buildNewsView(value),
-        none: (value) => const NoDataAnimation(),
-        errorFetching: (value) => const NoDataAnimation());
+      initial: (value) => const SizedBox.shrink(),
+      fetching: (value) => const LoadingWidget(),
+      fetched: (value) => _buildNewsView(value),
+      none: (value) => const NoDataAnimation(),
+      errorFetching: (value) => NoDataAnimation(
+        tryAgain: () => _onRefresh(),
+      ),
+    );
   }
 
   Widget _buildNewsView(FetchedNewsState value) {

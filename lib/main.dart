@@ -42,7 +42,13 @@ class App extends StatelessWidget {
           routeInformationParser: _router.defaultRouteParser(),
           routerDelegate: _router.delegate(),
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.grey,
+              brightness: Brightness.light,
+              primary: Colors.white,
+              secondary: Colors.black,
+              shadow: Colors.black.withOpacity(0.3),
+            ),
             useMaterial3: true,
             appBarTheme: const AppBarTheme(
               centerTitle: true,

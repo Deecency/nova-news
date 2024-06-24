@@ -1,11 +1,8 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:news_app/models/news/news.dart';
 import 'package:news_app/repositories/local_repository.dart';
 import 'dart:async';
-
 import 'package:news_app/repositories/news_repository.dart';
 import 'package:news_app/services/network/error_handler.dart';
 
@@ -27,7 +24,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   }
 
   /// Method used to add the [FetchNewsEvent] event
-  void fetch(BuildContext context) => add(NewsEvent.fetch(context));
+  void fetch() => add(const NewsEvent.fetch());
 
   Future<FutureOr<void>> _onFetch(
     FetchNewsEvent event,
@@ -35,7 +32,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   ) async {
     try {
       emit(const NewsState.fetching());
-      final news = await newsRepository.news(context: event.context);
+      final news = await newsRepository.news;
 
       if (news.data != null) {
         emit(news.data.isNotEmpty ? NewsState.fetched(news.data) : const NewsState.none());

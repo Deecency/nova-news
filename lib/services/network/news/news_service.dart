@@ -29,7 +29,7 @@ abstract class NewsService {
     ///
     @Query('pageSize') int? pageSize = 20,
     @Query('page') int? page = 1,
-    @Query('apiKey') String apiKey = '',
+    @Query('apiKey') String apiKey = 'a2a6e2ced3de453b829a97c95ba1fdbd',
   });
 
   @GET('/top-headlines')
