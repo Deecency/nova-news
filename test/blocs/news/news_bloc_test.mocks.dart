@@ -5,8 +5,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
 
-import 'package:flutter/cupertino.dart' as _i3;
 import 'package:flutter/foundation.dart' as _i4;
+import 'package:flutter/src/widgets/framework.dart' as _i3;
+import 'package:flutter/src/widgets/notification_listener.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:news_app/models/news/news.dart' as _i7;
 import 'package:news_app/repositories/local_repository.dart' as _i8;
@@ -46,7 +47,7 @@ class _FakeWidget_1 extends _i1.SmartFake implements _i3.Widget {
         );
 
   @override
-  String toString({_i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info}) =>
+  String toString({_i4.DiagnosticLevel? minLevel = _i4.DiagnosticLevel.info}) =>
       super.toString();
 }
 
@@ -61,12 +62,12 @@ class _FakeInheritedWidget_2 extends _i1.SmartFake
         );
 
   @override
-  String toString({_i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info}) =>
+  String toString({_i4.DiagnosticLevel? minLevel = _i4.DiagnosticLevel.info}) =>
       super.toString();
 }
 
 class _FakeDiagnosticsNode_3 extends _i1.SmartFake
-    implements _i3.DiagnosticsNode {
+    implements _i4.DiagnosticsNode {
   _FakeDiagnosticsNode_3(
     Object parent,
     Invocation parentInvocation,
@@ -78,7 +79,7 @@ class _FakeDiagnosticsNode_3 extends _i1.SmartFake
   @override
   String toString({
     _i4.TextTreeConfiguration? parentConfiguration,
-    _i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info,
+    _i4.DiagnosticLevel? minLevel = _i4.DiagnosticLevel.info,
   }) =>
       super.toString();
 }
@@ -92,58 +93,34 @@ class MockNewsRepository extends _i1.Mock implements _i5.NewsRepository {
   }
 
   @override
-  _i6.Future<_i2.ApiResult<List<_i7.News>>> news(
-          {required _i3.BuildContext? context}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #news,
-          [],
-          {#context: context},
-        ),
+  _i6.Future<_i2.ApiResult<List<_i7.News>>> get news => (super.noSuchMethod(
+        Invocation.getter(#news),
         returnValue: _i6.Future<_i2.ApiResult<List<_i7.News>>>.value(
             _FakeApiResult_0<List<_i7.News>>(
           this,
-          Invocation.method(
-            #news,
-            [],
-            {#context: context},
-          ),
+          Invocation.getter(#news),
         )),
       ) as _i6.Future<_i2.ApiResult<List<_i7.News>>>);
 
   @override
-  _i6.Future<_i2.ApiResult<List<_i7.News>>> trendingNews(
-          {required _i3.BuildContext? context}) =>
+  _i6.Future<_i2.ApiResult<List<_i7.News>>> get trendingNews =>
       (super.noSuchMethod(
-        Invocation.method(
-          #trendingNews,
-          [],
-          {#context: context},
-        ),
+        Invocation.getter(#trendingNews),
         returnValue: _i6.Future<_i2.ApiResult<List<_i7.News>>>.value(
             _FakeApiResult_0<List<_i7.News>>(
           this,
-          Invocation.method(
-            #trendingNews,
-            [],
-            {#context: context},
-          ),
+          Invocation.getter(#trendingNews),
         )),
       ) as _i6.Future<_i2.ApiResult<List<_i7.News>>>);
 
   @override
-  _i6.Future<_i2.ApiResult<List<_i7.News>>> newsByCategory({
-    required _i3.BuildContext? context,
-    required String? category,
-  }) =>
+  _i6.Future<_i2.ApiResult<List<_i7.News>>> newsByCategory(
+          {required String? category}) =>
       (super.noSuchMethod(
         Invocation.method(
           #newsByCategory,
           [],
-          {
-            #context: context,
-            #category: category,
-          },
+          {#category: category},
         ),
         returnValue: _i6.Future<_i2.ApiResult<List<_i7.News>>>.value(
             _FakeApiResult_0<List<_i7.News>>(
@@ -151,10 +128,7 @@ class MockNewsRepository extends _i1.Mock implements _i5.NewsRepository {
           Invocation.method(
             #newsByCategory,
             [],
-            {
-              #context: context,
-              #category: category,
-            },
+            {#category: category},
           ),
         )),
       ) as _i6.Future<_i2.ApiResult<List<_i7.News>>>);
@@ -312,7 +286,7 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
       );
 
   @override
-  void dispatchNotification(_i3.Notification? notification) =>
+  void dispatchNotification(_i9.Notification? notification) =>
       super.noSuchMethod(
         Invocation.method(
           #dispatchNotification,
@@ -322,7 +296,7 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
       );
 
   @override
-  _i3.DiagnosticsNode describeElement(
+  _i4.DiagnosticsNode describeElement(
     String? name, {
     _i4.DiagnosticsTreeStyle? style = _i4.DiagnosticsTreeStyle.errorProperty,
   }) =>
@@ -340,10 +314,10 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
             {#style: style},
           ),
         ),
-      ) as _i3.DiagnosticsNode);
+      ) as _i4.DiagnosticsNode);
 
   @override
-  _i3.DiagnosticsNode describeWidget(
+  _i4.DiagnosticsNode describeWidget(
     String? name, {
     _i4.DiagnosticsTreeStyle? style = _i4.DiagnosticsTreeStyle.errorProperty,
   }) =>
@@ -361,10 +335,10 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
             {#style: style},
           ),
         ),
-      ) as _i3.DiagnosticsNode);
+      ) as _i4.DiagnosticsNode);
 
   @override
-  List<_i3.DiagnosticsNode> describeMissingAncestor(
+  List<_i4.DiagnosticsNode> describeMissingAncestor(
           {required Type? expectedAncestorType}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -372,11 +346,11 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
           [],
           {#expectedAncestorType: expectedAncestorType},
         ),
-        returnValue: <_i3.DiagnosticsNode>[],
-      ) as List<_i3.DiagnosticsNode>);
+        returnValue: <_i4.DiagnosticsNode>[],
+      ) as List<_i4.DiagnosticsNode>);
 
   @override
-  _i3.DiagnosticsNode describeOwnershipChain(String? name) =>
+  _i4.DiagnosticsNode describeOwnershipChain(String? name) =>
       (super.noSuchMethod(
         Invocation.method(
           #describeOwnershipChain,
@@ -389,5 +363,5 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
             [name],
           ),
         ),
-      ) as _i3.DiagnosticsNode);
+      ) as _i4.DiagnosticsNode);
 }
